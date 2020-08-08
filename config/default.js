@@ -1,6 +1,6 @@
 const config = {
     // 启动端口
-    port: 1919,
+    port: 1235,
 
     // 数据库配置
     database: {

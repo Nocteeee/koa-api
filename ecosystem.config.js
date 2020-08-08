@@ -3,7 +3,7 @@ module.exports = {
     {
       name:'koa-app',
       script: 'app.js',
-      watch: './',
+      watch: true,
       env: {
         NODE_ENV: 'development'
       },
