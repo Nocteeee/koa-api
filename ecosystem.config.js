@@ -4,6 +4,9 @@ module.exports = {
       name:'koa-app',
       script: 'app.js',
       watch: './',
+      env: {
+        NODE_ENV: 'development'
+      },
       env_production: {
         NODE_ENV: 'pro'
       }
