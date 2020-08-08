@@ -1,11 +1,14 @@
 module.exports = {
-  apps: [{
-    script: 'app.js',
-    watch: './'
-  }, {
-    script: './service-worker/',
-    watch: ['./service-worker']
-  }],
+  apps: [
+    {
+      name:'koa-app',
+      script: 'app.js',
+      watch: './',
+      env_production: {
+        NODE_ENV: 'pro'
+      }
+    }
+  ],
 
   deploy: {
     production: {
