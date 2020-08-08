@@ -12,7 +12,7 @@ class UserController extends CommonService {
         return this.query(_sql)
     }
     articleList() {
-        let _sql = "select * from t_article;"
+        let _sql = "select * from t_article group by id desc;"
         return this.query(_sql)
     }
     getArticleById(_id) {
