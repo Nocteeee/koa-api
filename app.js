@@ -6,7 +6,7 @@ const bodyParser = require('koa-bodyparser');
 const Log = require('./middleware/log/logger');
 const { getIPAdress } = require('./utils/util')
 const checkToken = require('./middleware/jwt/')
-const cors = require('koa-cors')
+const cors = require('koa2-cors')
 
 
 app.use(Log({
