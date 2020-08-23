@@ -1,24 +1,18 @@
 const Koa = require('koa')
 const app = new Koa();
 const router = require('koa-router')();
-var config = require('./config/default');
 const bodyParser = require('koa-bodyparser');
 const Log = require('./middleware/log/logger');
 const { getIPAdress } = require('./utils/util')
 const checkToken = require('./middleware/jwt/')
-// const cors = require('koa2-cors')
-
-
-// app.use(async (ctx, next) => {
-//     ctx.set('Access-Control-Allow-Origin', '*');
-//     ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With ');
-//     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-//     if (ctx.method == 'OPTIONS') {
-//         ctx.body = 200;
-//     } else {
-//         await next();
-//     }
-// });
+var mysql = require('mysql2');
+// var config = require('../config/default');
+var config;
+const cors = require('koa2-cors')
+config = (app.env === 'development' ? require('./config/devConfig') : require('./config/default'))
+var pool = mysql.createPool(config.database);
+!(global.pool) && (global.pool = pool);
+global.connection = pool;
 
 app
     .use(Log({
@@ -28,7 +22,7 @@ app
         dir: 'logs',
         serverIp: getIPAdress()
     }))
-    // .use(cors())
+    .use(cors())
     .use(bodyParser())
     .use(checkToken)
     .use(router.routes())

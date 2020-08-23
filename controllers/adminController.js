@@ -11,16 +11,29 @@ class UserController extends CommonService {
         let _sql = "select * from sys_user;"
         return this.query(_sql)
     }
-    articleList() {
-        let _sql = "select * from t_article group by create_time desc;"
-        return this.query(_sql)
+    async articleList(p) {
+        let pageNo = (p.pageNo || 1) - 1;
+        let pageSize = p.pageSize || 10;
+        let sql_count = `select count(*) as total  from t_article`;
+        let total = await this.query(sql_count);
+        let _sql = `select * from t_article order by create_time desc limit ${ pageNo * pageSize } , ${ pageSize };`;
+        let article_list = await this.query(_sql)
+        return {
+            records:article_list,
+            total:total[0].total,
+            pageNo: +(p.pageNo || 1),
+            pageSize: +pageSize
+        }
     }
-    getArticleById(_id) {
-        let _sql = `select t_article.id,title,submit,is_top,category_id,create_time,modified_time,content 
+    async getArticleById(_id) {
+        let _sql = `select t_article.id,title,submit,is_top,category_id,create_time,modified_time,view,content 
                     from t_article,t_content 
                     where t_article.id = ? 
-                    and t_content.article_id = t_article.id ;`
-        return this.query(_sql, _id)
+                    and t_content.article_id = t_article.id;`
+        let result = await this.query(_sql, _id);
+        let updateView = `update t_article set view = ? where t_article.id = ?`
+        await this.query(updateView, [result[0].view + 1, _id]);
+        return result
     }
     async addArticle(p) {
         let _sql = `insert into

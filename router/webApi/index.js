@@ -4,7 +4,8 @@ const responseResult = require('../../utils/response')
 module.exports = ( router ) => {
     //获取文章list
     router.get('/web/articleList', async ctx => {
-        let result = await AdminController.articleList();
+        let params = ctx.request.query
+        let result = await AdminController.articleList(params);
         ctx.body = responseResult.success(result)
     })
 

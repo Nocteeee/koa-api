@@ -1,8 +1,5 @@
 //mysqlConfig.js
-var mysql = require('mysql2');
-var config = require('../config/default');
-var pool = mysql.createPool(config.database);
-global.connection = pool
+
 
 // function handleError() {
 //     pool.getConnection(function (err, conn) {
@@ -19,10 +16,10 @@ class CommonService {
         return new Promise((resolve, reject) => {
             global.connection.query(sql, values, (err, rows) => {
                 if (err) {
-                    global.logger.error(err)
+                    global.log.error(err)
                     reject(err)
                 } else {
-                    global.logger.info(rows)
+                    global.log.info(rows)
                     resolve(rows)
                 }
                 pool.releaseConnection(global.connection)

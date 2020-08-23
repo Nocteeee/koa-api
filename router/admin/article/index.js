@@ -4,7 +4,8 @@ const responseResult = require('../../../utils/response')
 module.exports = ( router ) => {
     //获取文章list
     router.get('/articleList', async ctx => {
-        let result = await AdminController.articleList();
+        let params = ctx.request.query
+        let result = await AdminController.articleList(params);
         ctx.body = responseResult.success(result)
     })
 
@@ -29,7 +30,7 @@ module.exports = ( router ) => {
     //修改文章
     router.post('/modifyArticle', async ctx => {
         let params = ctx.request.body;
-        params.modified_time = new Date().toLocaleDateString().replace('/','-')
+        params.modified_time = new Date().toLocaleDateString().replace(/\//g,'-')
         await AdminController.modifyArticle(params)
         ctx.body = responseResult.success()
     })
