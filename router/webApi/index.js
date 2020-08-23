@@ -13,6 +13,7 @@ module.exports = ( router ) => {
     router.get('/web/getArticleById', async ctx => {
         let params = ctx.request.query;
         let result = await AdminController.getArticleById(params.id)
+        result[0].view + 1;
         ctx.body = responseResult.success(result[0])
     })
 }
