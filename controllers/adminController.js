@@ -37,9 +37,9 @@ class UserController extends CommonService {
     }
     async addArticle(p) {
         let _sql = `insert into
-                    t_article(title,submit,is_top,category_id,create_time)
+                    t_article(title,submit,is_top,category_id,create_time,view)
                     values (?,?,?,?,?);`;
-        let res = await this.query(_sql, [p.title, p.submit, p.is_top, p.category_id, p.create_time])
+        let res = await this.query(_sql, [p.title, p.submit, p.is_top, p.category_id, p.create_time,0])
         let _sql2 = `insert into
                     t_content(article_id,content)
                     values (?,?);`

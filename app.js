@@ -9,7 +9,7 @@ var mysql = require('mysql2');
 // var config = require('../config/default');
 var config;
 const cors = require('koa2-cors')
-config = (app.env === 'development' ? require('./config/devConfig') : require('./config/default'))
+config = require('./config/default')
 var pool = mysql.createPool(config.database);
 !(global.pool) && (global.pool = pool);
 global.connection = pool;
