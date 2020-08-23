@@ -26,14 +26,15 @@ class UserController extends CommonService {
         }
     }
     async getArticleById(_id) {
+        let getView = `select view from t_article where t_article.id = ?`
+        let view = await this.query(getView, _id);
+        let updateView = `update t_article set view = ? where t_article.id = ?`
+        await this.query(updateView, [view[0].view + 1, _id]);
         let _sql = `select t_article.id,title,submit,is_top,category_id,create_time,modified_time,view,content 
                     from t_article,t_content 
                     where t_article.id = ? 
                     and t_content.article_id = t_article.id;`
-        let result = await this.query(_sql, _id);
-        let updateView = `update t_article set view = ? where t_article.id = ?`
-        await this.query(updateView, [result[0].view + 1, _id]);
-        return result
+        return this.query(_sql, _id)
     }
     async addArticle(p) {
         let _sql = `insert into
